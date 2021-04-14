@@ -3,8 +3,9 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"gonnel"
 	"os"
+
+	"github.com/kthomas/gonnel"
 )
 
 func main() {

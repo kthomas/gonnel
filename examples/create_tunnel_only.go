@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"gonnel"
 	"log"
+
+	"github.com/kthomas/gonnel"
 )
 
 // assumption server ngrok client already started

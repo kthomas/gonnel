@@ -111,7 +111,6 @@ const (
 //
 // Client pointer can be used to close binary or start binary
 func NewClient(opt Options) (*Client, error) {
-	log.Println("New client")
 	if opt.BinaryPath == "" {
 		return nil, errors.New("binary path required")
 	}
@@ -170,8 +169,6 @@ func (o *Options) AuthTokenCommand() error {
 // Channel needed to send information about WebUI started or not.
 // stdout will be pipe and check using regex.
 func (c *Client) StartServer(isReady chan bool) {
-	log.Println("Start server")
-
 	commands := c.Options.generateCommands()
 	cmd := exec.Command(c.Options.BinaryPath, commands...)
 	c.runningCmd = cmd
@@ -224,13 +221,13 @@ func (c *Client) StartServer(isReady chan bool) {
 		}
 
 		if c.Options.LogBinary {
-			log.Print("Client-Bin-Log: ", string(chunk[:n]))
+			// log.Print("Client-Bin-Log: ", string(chunk[:n]))
 		}
 		// handle regex (output) that search local ip and port for web ui
 		if checkNGReady.Match(chunk[:n]) {
 			host := checkWebURI.FindStringSubmatch(string(chunk[:n]))
 			if len(host) >= 1 {
-				log.Println("server client ready")
+				// log.Println("server client ready")
 				c.WebUIAddress = host[0]
 				isReady <- true
 			}
@@ -269,7 +266,7 @@ func (c *Client) handleSignalInput(signalChan chan os.Signal) {
 		s := <-signalChan
 		switch s {
 		default:
-			log.Println(s)
+			// log.Println(s)
 			c.Signal(s)
 			os.Exit(1)
 		}
@@ -278,7 +275,7 @@ func (c *Client) handleSignalInput(signalChan chan os.Signal) {
 
 // AddTunnel create a new tunnel without connecting it
 func (c *Client) AddTunnel(t *Tunnel) {
-	log.Println("Add tunnel")
+	// log.Println("Add tunnel")
 	c.Tunnel = append(c.Tunnel, t)
 }
 
@@ -286,7 +283,7 @@ func (c *Client) AddTunnel(t *Tunnel) {
 func (c *Client) ConnectAll() error {
 	wg := &sync.WaitGroup{}
 	// api request post to /api/tunnels
-	log.Println("Connecting")
+	// log.Println("Connecting")
 
 	if len(c.Tunnel) < 1 {
 		return errors.New("need at least 1 tunnel to connect")
@@ -310,7 +307,7 @@ func (c *Client) ConnectAll() error {
 func (c *Client) DisconnectAll() error {
 	wg := &sync.WaitGroup{}
 	//	api request delete to /api/tunnels/:Name
-	log.Println("Disconnecting")
+	// log.Println("Disconnecting")
 	if len(c.Tunnel) < 1 {
 		return errors.New("need at least 1 tunnel to disconnect")
 	}

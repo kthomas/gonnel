@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"gonnel"
+
+	"github.com/kthomas/gonnel"
 )
 
 func main() {
