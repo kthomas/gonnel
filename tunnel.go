@@ -90,7 +90,6 @@ func (c *Client) CreateTunnel(t *Tunnel) (err error) {
 func (c *Client) CloseTunnel(t *Tunnel) (err error) {
 	for attempt := uint(0); attempt <= maxRetries; attempt++ {
 		err = func() error {
-			log.Println("Closing tunnel in " + t.RemoteAddress)
 			url := fmt.Sprintf("http://%s/api/tunnels/%s", c.WebUIAddress, t.Name)
 			req, err := http.NewRequest("DELETE", url, nil)
 			if err != nil {
@@ -112,7 +111,6 @@ func (c *Client) CloseTunnel(t *Tunnel) (err error) {
 
 			t.RemoteAddress = ""
 			t.IsCreated = false
-			log.Println("Tunnel " + t.Name + " successfully closed")
 			return nil
 		}()
 		if c.LogApi && err != nil {
