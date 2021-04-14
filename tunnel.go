@@ -25,7 +25,7 @@ type Tunnel struct {
 }
 
 // Maximum retries until tunnel connected/closed
-const maxRetries = 100
+const maxRetries = 10
 
 // CreateTunnel that create connection to ngrok server
 //
@@ -34,7 +34,7 @@ const maxRetries = 100
 func (c *Client) CreateTunnel(t *Tunnel) (err error) {
 	for attempt := uint(0); attempt <= maxRetries; attempt++ {
 		err = func() error {
-			log.Printf("Creating tunnel %d attempt \n", attempt)
+			// log.Printf("Creating tunnel %d attempt \n", attempt)
 			time.Sleep(1 * time.Second)
 			var record responseCreateTunnel
 			jsonData := map[string]interface{}{
@@ -71,7 +71,7 @@ func (c *Client) CreateTunnel(t *Tunnel) (err error) {
 
 			t.RemoteAddress = record.PublicURL
 			t.IsCreated = true
-			log.Println("tunnel " + t.Name + " is created using: " + t.RemoteAddress + " address")
+			// log.Println("tunnel " + t.Name + " is created using: " + t.RemoteAddress + " address")
 			return nil
 		}()
 		if c.LogApi && err != nil {
